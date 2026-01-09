@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DataSage | Dashboard</title>
+
+    <style>
+        :root {
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --accent: #3b82f6;
+            --accent-dark: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0a0f1e;
+            --card: #1a1f35;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --accent: #60a5fa;
+            --accent-dark: #3b82f6;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .header {
+            background: var(--card);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 40px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            font-size: 32px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+            background: var(--accent-dark);
+        }
+
+        .btn-secondary {
+            background: rgba(148, 163, 184, 0.15);
+            color: var(--text);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(148, 163, 184, 0.25);
+        }
+
+        .container {
+            padding: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .quality-banner {
+            background: var(--gradient);
+            padding: 32px;
+            border-radius: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quality-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+        }
+
+        .quality-score {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1;
+        }
+
+        .quality-score h2 {
+            margin: 0;
+            font-size: 56px;
+            font-weight: 800;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .quality-score p {
+            margin: 0;
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        .quality-details {
+            display: flex;
+            gap: 24px;
+            z-index: 1;
+        }
+
+        .quality-item {
+            text-align: center;
+        }
+
+        .quality-item h3 {
+            margin: 0 0 6px 0;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .quality-item span {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .kpi {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .kpi:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .kpi::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .kpi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .kpi span {
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-icon {
+            font-size: 24px;
+            opacity: 0.7;
+        }
+
+        .kpi h2 {
+            margin: 8px 0 12px;
+            font-size: 42px;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .kpi-trend {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .trend-up { color: var(--success); }
+        .trend-down { color: var(--danger); }
+        .trend-neutral { color: var(--muted); }
+
+        .card {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-badge {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .type-grid, .missing-grid, .correlation-grid, .insights-list, .charts, .stats-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .type-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+        .missing-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        .correlation-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .charts { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
+        .stats-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+
+        .type-item, .missing-item, .correlation-item, .insight-item, .chart-card, .stat-box {
+            padding: 20px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .type-item { text-align: center; border: 2px solid rgba(148, 163, 184, 0.1); }
+        .type-item:hover { transform: scale(1.05); border-color: var(--accent); }
+        .type-numeric { background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05)); }
+        .type-text { background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); }
+        .type-date { background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05)); }
+        .type-bool { background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(168, 85, 247, 0.05)); }
+
+        .type-item h4 { margin: 0 0 6px 0; font-size: 28px; font-weight: 800; }
+        .type-item span { font-size: 13px; color: var(--muted); font-weight: 600; }
+
+        .missing-item {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(239, 68, 68, 0.04));
+            border-color: rgba(239, 68, 68, 0.15);
+        }
+        .missing-item:hover { transform: translateX(4px); border-color: var(--danger); }
+        .missing-item b { display: block; margin-bottom: 8px; font-size: 16px; color: var(--danger); }
+
+        .missing-bar {
+            height: 6px;
+            background: rgba(239, 68, 68, 0.2);
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .missing-fill {
+            height: 100%;
+            background: var(--danger);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .insight-item {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(102, 126, 234, 0.05));
+            border-left: 4px solid var(--accent);
+            display: flex;
+            align-items: start;
+            gap: 16px;
+        }
+        .insight-item:hover { transform: translateX(8px); box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15); }
+        .insight-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+        .insight-content { flex: 1; line-height: 1.6; }
+
+        .chart-card { background: var(--bg); }
+        .chart-card:hover { transform: scale(1.02); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); }
+        .chart-card img { width: 100%; border-radius: 12px; }
+
+        .correlation-item {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.04));
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+        .correlation-item:hover { transform: scale(1.03); box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2); }
+        .correlation-score { font-size: 32px; font-weight: 800; color: var(--success); margin-bottom: 8px; }
+        .correlation-vars { font-size: 14px; color: var(--muted); }
+        .correlation-vars strong { color: var(--text); }
+
+        .stat-box { background: var(--bg); text-align: center; }
+        .stat-box h4 { margin: 0 0 8px 0; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-box p { margin: 0; font-size: 24px; font-weight: 700; color: var(--text); }
+
+        /* CHATBOT STYLES */
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 32px rgba(102, 126, 234, 0.5);
+        }
+
+        .chat-widget {
+            position: fixed;
+            bottom: 110px;
+            right: 30px;
+            width: 420px;
+            height: 600px;
+            background: var(--card);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .chat-widget.open { display: flex; animation: slideUp 0.3s ease; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-header {
+            background: var(--gradient);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .chat-header button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            box-shadow: none;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chat-message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-message.user {
+            align-self: flex-end;
+            background: var(--accent);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-message.bot {
+            align-self: flex-start;
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-input-area {
+            padding: 20px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            display: flex;
+            gap: 12px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid rgba(148, 163, 184, 0.2);
+            border-radius: 12px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: var(--accent);
+        }
+
+        .chat-send {
+            padding: 12px 20px;
+            background: var(--accent);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: none;
+        }
+
+        .chat-send:hover {
+            background: var(--accent-dark);
+            transform: translateY(0);
+        }
+
+        .chat-send:disabled {
+            background: var(--muted);
+            cursor: not-allowed;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 12px 16px;
+            background: rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            width: fit-content;
+        }
+
+        .typing-indicator.show { display: block; }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--muted);
+            margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 32px 20px;
+            color: var(--muted);
+            font-size: 14px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+            margin-top: 40px;
+        }
+
+        .footer-links {
+            margin-top: 12px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        @media print {
+            .header, .footer, .chat-button, .chat-widget { display: none; }
+            .container { padding: 20px; }
+            .card { page-break-inside: avoid; }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            .header { padding: 16px 20px; flex-direction: column; gap: 16px; }
+            .quality-banner { flex-direction: column; gap: 24px; text-align: center; }
+            .quality-details { width: 100%; justify-content: space-around; }
+            .chat-widget { width: 90%; right: 5%; }
+        }
+    </style>
+
+    <script>
+        const SESSION_ID = "{{ data.session_id }}";
+
+        function toggleTheme() {
+            const isDark = document.body.dataset.theme === "dark";
+            document.body.dataset.theme = isDark ? "" : "dark";
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
+
+        function toggleChat() {
+            const widget = document.getElementById('chatWidget');
+            widget.classList.toggle('open');
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('chatSend');
+            const messagesDiv = document.getElementById('chatMessages');
+            const typingIndicator = document.getElementById('typingIndicator');
+            
+            const question = input.value.trim();
+            if (!question) return;
+
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message user';
+            userMsg.textContent = question;
+            messagesDiv.appendChild(userMsg);
+
+            // Clear input and disable
+            input.value = '';
+            sendBtn.disabled = true;
+            typingIndicator.classList.add('show');
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        session_id: SESSION_ID,
+                        question: question
+                    })
+                });
+
+                const data = await response.json();
+
+                // Add bot message
+                typingIndicator.classList.remove('show');
+                const botMsg = document.createElement('div');
+                botMsg.className = 'chat-message bot';
+                botMsg.innerHTML = data.answer.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+                messagesDiv.appendChild(botMsg);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            } catch (error) {
+                typingIndicator.classList.remove('show');
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'chat-message bot';
+                errorMsg.textContent = '❌ Sorry, there was an error processing your question.';
+                messagesDiv.appendChild(errorMsg);
+            }
+
+            sendBtn.disabled = false;
+            input.focus();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.dataset.theme = 'dark';
+            }
+            
+            setTimeout(() => {
+                document.querySelectorAll('.missing-fill').forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    setTimeout(() => bar.style.width = width, 100);
+                });
+            }, 300);
+
+            // Chat input enter key
+            document.getElementById('chatInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+
+            // Initial bot greeting
+            const messagesDiv = document.getElementById('chatMessages');
+            const greeting = document.createElement('div');
+            greeting.className = 'chat-message bot';
+            greeting.innerHTML = '👋 Hello! I\'m your DataSage AI assistant. Ask me anything about your data!<br><br>Try: "What are the column names?" or "Show me correlations"';
+            messagesDiv.appendChild(greeting);
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">📊</div>
+            <h1>DataSage</h1>
+        </div>
+        <div class="actions">
+            <button class="btn-secondary" onclick="toggleTheme()">🌙 Toggle Theme</button>
+            <button onclick="window.print()">📄 Export PDF</button>
+            <a href="/"><button class="btn-secondary">⬅️ New Analysis</button></a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="quality-banner">
+            <div class="quality-score">
+                <h2>{{ data.quality_score }}%</h2>
+                <p>Overall Data Quality Score</p>
+            </div>
+            <div class="quality-details">
+                <div class="quality-item">
+                    <h3>{{ data.completeness }}%</h3>
+                    <span>Completeness</span>
+                </div>
+                <div class="quality-item">
+                    <h3>{{ data.validity }}%</h3>
+                    <span>Validity</span>
+                </div>
+                <div class="quality-item">
+                    <h3>{{ data.consistency }}%</h3>
+                    <span>Consistency</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi">
+                <div class="kpi-header">
+                    <span>Total Records</span>
+                    <div class="kpi-icon">📦</div>
+                </div>
+                <h2>{{ "{:,}".format(data.summary.rows) }}</h2>
+                <div class="kpi-trend trend-neutral">{{ data.summary.rows }} data points</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-header">
+                    <span>Data Fields</span>
+                    <div class="kpi-icon">📋</div>
+                </div>
+                <h2>{{ data.summary.columns }}</h2>
+                <div class="kpi-trend trend-neutral">{{ data.summary.columns }} attributes analyzed</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-header">
+                    <span>Missing Values</span>
+                    <div class="kpi-icon">❌</div>
+                </div>
+                <h2>{{ "{:,}".format(data.total_missing) }}</h2>
+                <div class="kpi-trend {% if data.missing_percentage < 5 %}trend-up{% elif data.missing_percentage > 15 %}trend-down{% else %}trend-neutral{% endif %}">
+                    {{ "%.1f"|format(data.missing_percentage) }}% of total data
+                </div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-header">
+                    <span>Memory Usage</span>
+                    <div class="kpi-icon">💾</div>
+                </div>
+                <h2>{{ data.memory_usage }}</h2>
+                <div class="kpi-trend trend-neutral">Dataset size</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>🏷️ Data Type Distribution</h3>
+                <div class="card-badge">{{ data.summary.columns }} Fields</div>
+            </div>
+            <div class="type-grid">
+                <div class="type-item type-numeric">
+                    <h4>{{ data.types.numeric }}</h4>
+                    <span>Numeric</span>
+                </div>
+                <div class="type-item type-text">
+                    <h4>{{ data.types.text }}</h4>
+                    <span>Text</span>
+                </div>
+                <div class="type-item type-date">
+                    <h4>{{ data.types.datetime }}</h4>
+                    <span>DateTime</span>
+                </div>
+                <div class="type-item type-bool">
+                    <h4>{{ data.types.boolean }}</h4>
+                    <span>Boolean</span>
+                </div>
+            </div>
+        </div>
+
+        {% if data.summary.missing %}
+        <div class="card">
+            <div class="card-header">
+                <h3>🧩 Missing Data Analysis</h3>
+                <div class="card-badge">{{ data.summary.missing | length }} Fields Affected</div>
+            </div>
+            <div class="missing-grid">
+                {% for col, val in data.summary.missing.items() %}
+                {% if val > 0 %}
+                <div class="missing-item">
+                    <b>{{ col }}</b>
+                    {{ "{:,}".format(val) }} missing ({{ "%.1f"|format((val / data.summary.rows * 100)) }}%)
+                    <div class="missing-bar">
+                        <div class="missing-fill" style="width: {{ (val / data.summary.rows * 100) }}%"></div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if data.statistics %}
+        <div class="card">
+            <div class="card-header">
+                <h3>📊 Statistical Summary</h3>
+                <div class="card-badge">Key Metrics</div>
+            </div>
+            {% for col, stats in data.statistics.items() %}
+            <div style="margin-bottom: 24px;">
+                <h4 style="margin: 0 0 12px 0; color: var(--accent);">{{ col }}</h4>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <h4>Mean</h4>
+                        <p>{{ "%.2f"|format(stats.mean) }}</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Median</h4>
+                        <p>{{ "%.2f"|format(stats.median) }}</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Std Dev</h4>
+                        <p>{{ "%.2f"|format(stats.std) }}</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Min</h4>
+                        <p>{{ "%.2f"|format(stats.min) }}</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Max</h4>
+                        <p>{{ "%.2f"|format(stats.max) }}</p>
+                    </div>
+                    <div class="stat-box">
+                        <h4>Outliers</h4>
+                        <p>{{ stats.outliers }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if data.correlations %}
+        <div class="card">
+            <div class="card-header">
+                <h3>🔗 Strong Correlations Detected</h3>
+                <div class="card-badge">Top {{ data.correlations | length }} Relationships</div>
+            </div>
+            <div class="correlation-grid">
+                {% for corr in data.correlations %}
+                <div class="correlation-item">
+                    <div class="correlation-score">{{ "%.2f"|format(corr.score) }}</div>
+                    <div class="correlation-vars">
+                        <strong>{{ corr.var1 }}</strong> ↔ <strong>{{ corr.var2 }}</strong>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if data.charts %}
+        <div class="card">
+            <div class="card-header">
+                <h3>📈 Visual Analytics</h3>
+                <div class="card-badge">{{ data.charts | length }} Visualizations</div>
+            </div>
+            <div class="charts">
+                {% for chart in data.charts %}
+                <div class="chart-card">
+                    <img src="/static/{{ chart }}" alt="Data visualization">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if data.insights %}
+        <div class="card">
+            <div class="card-header">
+                <h3>🧠 AI-Powered Insights</h3>
+                <div class="card-badge">{{ data.insights | length }} Insights</div>
+            </div>
+            <div class="insights-list">
+                {% for insight in data.insights %}
+                <div class="insight-item">
+                    <div class="insight-icon">💡</div>
+                    <div class="insight-content">{{ insight }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- CHATBOT -->
+    <button class="chat-button" onclick="toggleChat()">🤖</button>
+
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header">
+            <h3>🤖 DataSage AI Assistant</h3>
+            <button onclick="toggleChat()">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="typing-indicator" id="typingIndicator">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input
+                type="text"
+                id="chatInput"
+                class="chat-input"
+                placeholder="Ask me about your data..."
+            />
+            <button class="chat-send" id="chatSend" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div>Built with ❤️ using <strong>DataSage</strong> | Generated: {{ data.timestamp }}</div>
+        <div class="footer-links">
+            <a href="/">New Analysis</a>
+            <a href="javascript:window.print()">Print Report</a>
+        </div>
+    </div>
+
+</body>
+
+</html>
