@@ -13,6 +13,8 @@ from typing import Dict, List, Optional
 import warnings
 from dotenv import load_dotenv
 import plotly.io as pio
+import base64
+from io import BytesIO
 pio.kaleido.scope.default_format = "png"
 # Load environment variables
 load_dotenv()
@@ -264,7 +266,7 @@ def generate_insights(df: pd.DataFrame, statistics: Dict, correlations: List) ->
     return insights[:8] if insights else ["✨ Data looks clean! No major issues detected."]
 
 
-def create_visualizations(df: pd.DataFrame) -> List[str]:
+# def create_visualizations(df: pd.DataFrame) -> List[str]:
     """Generate comprehensive visualizations"""
     charts = []
     numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
@@ -359,6 +361,102 @@ def create_visualizations(df: pd.DataFrame) -> List[str]:
     
     return charts
 
+
+def fig_to_base64(fig) -> str:
+    """Convert Plotly figure to base64 string"""
+    img_bytes = fig.to_image(format="png", width=600, height=350)
+    img_base64 = base64.b64encode(img_bytes).decode('utf-8')
+    return f"data:image/png;base64,{img_base64}"
+
+
+def create_visualizations(df: pd.DataFrame) -> List[str]:
+    """Generate comprehensive visualizations as base64 strings"""
+    charts = []
+    numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+    
+    if not numeric_cols:
+        return charts
+    
+    colors = ['#667eea', '#764ba2', '#f093fb', '#4facfe']
+    
+    # Histograms for numeric columns
+    for i, col in enumerate(numeric_cols[:4]):
+        try:
+            fig = px.histogram(
+                df,
+                x=col,
+                nbins=30,
+                title=f"Distribution: {col.replace('_', ' ').title()}",
+                template="plotly_white",
+                color_discrete_sequence=[colors[i % len(colors)]]
+            )
+            
+            fig.update_layout(
+                font=dict(family="Inter, sans-serif", size=12),
+                title_font=dict(size=16, family="Inter, sans-serif"),
+                showlegend=False,
+                height=350
+            )
+            
+            charts.append(fig_to_base64(fig))
+        except Exception as e:
+            print(f"Error creating histogram for {col}: {e}")
+            continue
+    
+    # Correlation heatmap
+    if len(numeric_cols) >= 2:
+        try:
+            corr_matrix = df[numeric_cols].corr()
+            
+            fig = go.Figure(data=go.Heatmap(
+                z=corr_matrix.values,
+                x=corr_matrix.columns,
+                y=corr_matrix.columns,
+                colorscale='RdBu',
+                zmid=0,
+                text=np.round(corr_matrix.values, 2),
+                texttemplate='%{text}',
+                textfont={"size": 10},
+                colorbar=dict(title="Correlation")
+            ))
+            
+            fig.update_layout(
+                title="Correlation Heatmap",
+                template="plotly_white",
+                font=dict(family="Inter, sans-serif", size=11),
+                title_font=dict(size=16, family="Inter, sans-serif"),
+                height=400,
+                width=500
+            )
+            
+            charts.append(fig_to_base64(fig))
+        except Exception as e:
+            print(f"Error creating correlation heatmap: {e}")
+    
+    # Box plot for outlier detection
+    if len(numeric_cols) >= 1:
+        try:
+            sample_col = numeric_cols[0]
+            fig = px.box(
+                df,
+                y=sample_col,
+                title=f"Outlier Detection: {sample_col.replace('_', ' ').title()}",
+                template="plotly_white",
+                color_discrete_sequence=['#667eea']
+            )
+            
+            fig.update_layout(
+                font=dict(family="Inter, sans-serif", size=12),
+                title_font=dict(size=16, family="Inter, sans-serif"),
+                showlegend=False,
+                height=350
+            )
+            
+            charts.append(fig_to_base64(fig))
+        except Exception as e:
+            print(f"Error creating box plot: {e}")
+    
+    return charts
 
 def prepare_minimal_context(df: pd.DataFrame, question: str) -> str:
     context = []
