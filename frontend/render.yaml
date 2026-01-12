@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: datasage-frontend
+    env: python
+    region: oregon
+    buildCommand: "cd frontend && pip install -r requirements.txt && playwright install chromium"
+    startCommand: "cd frontend && gunicorn app:app --bind 0.0.0.0:$PORT --timeout 120"
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
