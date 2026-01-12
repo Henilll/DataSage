@@ -65,8 +65,15 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         .header h1 {
@@ -147,8 +154,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.1); opacity: 0.5; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.5;
+            }
         }
 
         .quality-score {
@@ -224,6 +240,57 @@
             background: var(--gradient);
         }
 
+        /* Priority-based KPI styling */
+        .kpi-critical::before {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .kpi-high::before {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .kpi-medium::before {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .kpi-low::before {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        /* Dataset Badge */
+        .dataset-badge {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 16px;
+            padding: 16px 24px;
+            margin-bottom: 24px;
+        }
+
+        .badge-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge-icon {
+            font-size: 24px;
+        }
+
+        .badge-text {
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .badge-text strong {
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .badge-confidence {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
         .kpi-header {
             display: flex;
             justify-content: space-between;
@@ -262,9 +329,17 @@
             font-weight: 600;
         }
 
-        .trend-up { color: var(--success); }
-        .trend-down { color: var(--danger); }
-        .trend-neutral { color: var(--muted); }
+        .trend-up {
+            color: var(--success);
+        }
+
+        .trend-down {
+            color: var(--danger);
+        }
+
+        .trend-neutral {
+            color: var(--muted);
+        }
 
         .card {
             background: var(--card);
@@ -306,40 +381,102 @@
             font-weight: 600;
         }
 
-        .type-grid, .missing-grid, .correlation-grid, .insights-list, .charts, .stats-grid {
+        .type-grid,
+        .missing-grid,
+        .correlation-grid,
+        .insights-list,
+        .charts,
+        .stats-grid {
             display: grid;
             gap: 16px;
         }
 
-        .type-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
-        .missing-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-        .correlation-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-        .charts { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
-        .stats-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+        .type-grid {
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
 
-        .type-item, .missing-item, .correlation-item, .insight-item, .chart-card, .stat-box {
+        .missing-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .correlation-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .charts {
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+
+        .type-item,
+        .missing-item,
+        .correlation-item,
+        .insight-item,
+        .chart-card,
+        .stat-box {
             padding: 20px;
             border-radius: 16px;
             transition: all 0.3s ease;
             border: 1px solid rgba(148, 163, 184, 0.1);
         }
 
-        .type-item { text-align: center; border: 2px solid rgba(148, 163, 184, 0.1); }
-        .type-item:hover { transform: scale(1.05); border-color: var(--accent); }
-        .type-numeric { background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05)); }
-        .type-text { background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); }
-        .type-date { background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05)); }
-        .type-bool { background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(168, 85, 247, 0.05)); }
+        .type-item {
+            text-align: center;
+            border: 2px solid rgba(148, 163, 184, 0.1);
+        }
 
-        .type-item h4 { margin: 0 0 6px 0; font-size: 28px; font-weight: 800; }
-        .type-item span { font-size: 13px; color: var(--muted); font-weight: 600; }
+        .type-item:hover {
+            transform: scale(1.05);
+            border-color: var(--accent);
+        }
+
+        .type-numeric {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));
+        }
+
+        .type-text {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+        }
+
+        .type-date {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+        }
+
+        .type-bool {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(168, 85, 247, 0.05));
+        }
+
+        .type-item h4 {
+            margin: 0 0 6px 0;
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .type-item span {
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 600;
+        }
 
         .missing-item {
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(239, 68, 68, 0.04));
             border-color: rgba(239, 68, 68, 0.15);
         }
-        .missing-item:hover { transform: translateX(4px); border-color: var(--danger); }
-        .missing-item b { display: block; margin-bottom: 8px; font-size: 16px; color: var(--danger); }
+
+        .missing-item:hover {
+            transform: translateX(4px);
+            border-color: var(--danger);
+        }
+
+        .missing-item b {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: var(--danger);
+        }
 
         .missing-bar {
             height: 6px;
@@ -348,6 +485,7 @@
             margin-top: 10px;
             overflow: hidden;
         }
+
         .missing-fill {
             height: 100%;
             background: var(--danger);
@@ -362,26 +500,82 @@
             align-items: start;
             gap: 16px;
         }
-        .insight-item:hover { transform: translateX(8px); box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15); }
-        .insight-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
-        .insight-content { flex: 1; line-height: 1.6; }
 
-        .chart-card { background: var(--bg); }
-        .chart-card:hover { transform: scale(1.02); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); }
-        .chart-card img { width: 100%; border-radius: 12px; }
+        .insight-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+        }
+
+        .insight-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .insight-content {
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .chart-card {
+            background: var(--bg);
+        }
+
+        .chart-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .chart-card img {
+            width: 100%;
+            border-radius: 12px;
+        }
 
         .correlation-item {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.04));
             border-color: rgba(16, 185, 129, 0.2);
         }
-        .correlation-item:hover { transform: scale(1.03); box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2); }
-        .correlation-score { font-size: 32px; font-weight: 800; color: var(--success); margin-bottom: 8px; }
-        .correlation-vars { font-size: 14px; color: var(--muted); }
-        .correlation-vars strong { color: var(--text); }
 
-        .stat-box { background: var(--bg); text-align: center; }
-        .stat-box h4 { margin: 0 0 8px 0; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .stat-box p { margin: 0; font-size: 24px; font-weight: 700; color: var(--text); }
+        .correlation-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+        }
+
+        .correlation-score {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--success);
+            margin-bottom: 8px;
+        }
+
+        .correlation-vars {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .correlation-vars strong {
+            color: var(--text);
+        }
+
+        .stat-box {
+            background: var(--bg);
+            text-align: center;
+        }
+
+        .stat-box h4 {
+            margin: 0 0 8px 0;
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-box p {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+        }
 
         /* CHATBOT STYLES */
         .chat-button {
@@ -425,11 +619,21 @@
             border: 1px solid rgba(148, 163, 184, 0.2);
         }
 
-        .chat-widget.open { display: flex; animation: slideUp 0.3s ease; }
+        .chat-widget.open {
+            display: flex;
+            animation: slideUp 0.3s ease;
+        }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .chat-header {
@@ -481,8 +685,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .chat-message.user {
@@ -553,7 +764,9 @@
             width: fit-content;
         }
 
-        .typing-indicator.show { display: block; }
+        .typing-indicator.show {
+            display: block;
+        }
 
         .typing-indicator span {
             display: inline-block;
@@ -565,12 +778,25 @@
             animation: typing 1.4s infinite;
         }
 
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
 
         @keyframes typing {
-            0%, 60%, 100% { opacity: 0.3; }
-            30% { opacity: 1; }
+
+            0%,
+            60%,
+            100% {
+                opacity: 0.3;
+            }
+
+            30% {
+                opacity: 1;
+            }
         }
 
         .footer {
@@ -596,17 +822,49 @@
         }
 
         @media print {
-            .header, .footer, .chat-button, .chat-widget { display: none; }
-            .container { padding: 20px; }
-            .card { page-break-inside: avoid; }
+
+            .header,
+            .footer,
+            .chat-button,
+            .chat-widget {
+                display: none;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .card {
+                page-break-inside: avoid;
+            }
         }
 
         @media (max-width: 768px) {
-            .container { padding: 20px; }
-            .header { padding: 16px 20px; flex-direction: column; gap: 16px; }
-            .quality-banner { flex-direction: column; gap: 24px; text-align: center; }
-            .quality-details { width: 100%; justify-content: space-around; }
-            .chat-widget { width: 90%; right: 5%; }
+            .container {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .quality-banner {
+                flex-direction: column;
+                gap: 24px;
+                text-align: center;
+            }
+
+            .quality-details {
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .chat-widget {
+                width: 90%;
+                right: 5%;
+            }
         }
     </style>
 
@@ -629,7 +887,7 @@
             const sendBtn = document.getElementById('chatSend');
             const messagesDiv = document.getElementById('chatMessages');
             const typingIndicator = document.getElementById('typingIndicator');
-            
+
             const question = input.value.trim();
             if (!question) return;
 
@@ -682,7 +940,7 @@
             if (savedTheme === 'dark') {
                 document.body.dataset.theme = 'dark';
             }
-            
+
             setTimeout(() => {
                 document.querySelectorAll('.missing-fill').forEach(bar => {
                     const width = bar.style.width;
@@ -696,11 +954,23 @@
                 if (e.key === 'Enter') sendMessage();
             });
 
-            // Initial bot greeting
+            // Initial bot greeting - dynamic based on dataset type
             const messagesDiv = document.getElementById('chatMessages');
             const greeting = document.createElement('div');
             greeting.className = 'chat-message bot';
-            greeting.innerHTML = '👋 Hello! I\'m your DataSage AI assistant. Ask me anything about your data!<br><br>Try: "What are the column names?" or "Show me correlations"';
+            const datasetType = '{{ data.dataset_type.type if data.dataset_type else "your" }}';
+            greeting.innerHTML = `
+                👋 <strong>Hello! I'm your DataSage AI assistant.</strong><br><br>
+                I can answer <strong>ANY question</strong> about your ${datasetType} data!<br><br>
+                <strong>Ask me anything:</strong><br>
+                • What insights do you see?<br>
+                • Show trends over time<br>
+                • Compare metrics by category<br>
+                • Explain correlations<br>
+                • Why is this important?<br>
+                • What should I do next?<br><br>
+                💡 <em>No restrictions - ask whatever you want!</em>
+            `;
             messagesDiv.appendChild(greeting);
         });
     </script>
@@ -710,7 +980,7 @@
 
     <div class="header">
         <div class="header-left">
-            <div class="logo">📊</div>
+            <div class="logo"></div>
             <h1>DataSage</h1>
         </div>
         <div class="actions">
@@ -766,7 +1036,8 @@
                     <div class="kpi-icon">❌</div>
                 </div>
                 <h2>{{ "{:,}".format(data.total_missing) }}</h2>
-                <div class="kpi-trend {% if data.missing_percentage < 5 %}trend-up{% elif data.missing_percentage > 15 %}trend-down{% else %}trend-neutral{% endif %}">
+                <div
+                    class="kpi-trend {% if data.missing_percentage < 5 %}trend-up{% elif data.missing_percentage > 15 %}trend-down{% else %}trend-neutral{% endif %}">
                     {{ "%.1f"|format(data.missing_percentage) }}% of total data
                 </div>
             </div>
@@ -831,38 +1102,103 @@
         <div class="card">
             <div class="card-header">
                 <h3>📊 Statistical Summary</h3>
-                <div class="card-badge">Key Metrics</div>
+                <div class="card-badge">Advanced Metrics</div>
             </div>
             {% for col, stats in data.statistics.items() %}
+
             <div style="margin-bottom: 24px;">
                 <h4 style="margin: 0 0 12px 0; color: var(--accent);">{{ col }}</h4>
                 <div class="stats-grid">
                     <div class="stat-box">
                         <h4>Mean</h4>
-                        <p>{{ "%.2f"|format(stats.mean) }}</p>
+
+                        <p>{{ "%.2f"|format(stats["mean"]) }}</p>
                     </div>
                     <div class="stat-box">
                         <h4>Median</h4>
-                        <p>{{ "%.2f"|format(stats.median) }}</p>
+                        <p>{{ "%.2f"|format(stats["median"]) }}</p>
                     </div>
                     <div class="stat-box">
                         <h4>Std Dev</h4>
-                        <p>{{ "%.2f"|format(stats.std) }}</p>
+                        <p>{{ "%.2f"|format(stats["std"]) }}</p>
                     </div>
                     <div class="stat-box">
                         <h4>Min</h4>
-                        <p>{{ "%.2f"|format(stats.min) }}</p>
+                        <p>{{ "%.2f"|format(stats["min"]) }}</p>
                     </div>
                     <div class="stat-box">
                         <h4>Max</h4>
-                        <p>{{ "%.2f"|format(stats.max) }}</p>
+                        <p>{{ "%.2f"|format(stats["max"]) }}</p>
                     </div>
                     <div class="stat-box">
-                        <h4>Outliers</h4>
-                        <p>{{ stats.outliers }}</p>
+                        <h4>CV</h4>
+                        <p>{{ "%.1f"|format(stats["cv"]) }}%</p>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- TIME INTELLIGENCE -->
+        {% if data.time_analysis and data.time_analysis.time_range %}
+        <div class="card">
+            <div class="card-header">
+                <h3>⏰ Time Intelligence</h3>
+                <div class="card-badge">{{ data.time_analysis.time_range.days }} Days Analyzed</div>
+            </div>
+
+            <div style="background: rgba(59, 130, 246, 0.05); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                <h4 style="margin: 0 0 12px 0;">📅 Time Period</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+                    <div>
+                        <div style="font-size: 12px; color: var(--muted); margin-bottom: 4px;">Start Date</div>
+                        <div style="font-weight: 700;">{{ data.time_analysis.time_range.start }}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: var(--muted); margin-bottom: 4px;">End Date</div>
+                        <div style="font-weight: 700;">{{ data.time_analysis.time_range.end }}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: var(--muted); margin-bottom: 4px;">Duration</div>
+                        <div style="font-weight: 700;">{{ data.time_analysis.time_range.days }} days</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: var(--muted); margin-bottom: 4px;">Data Points</div>
+                        <div style="font-weight: 700;">{{ "{:,}".format(data.time_analysis.time_range.data_points) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% for col, analysis in data.time_analysis.items() %}
+            {% if col != 'time_range' %}
+            <div style="margin-bottom: 24px; padding: 20px; background: var(--bg); border-radius: 12px;">
+                <h4 style="margin: 0 0 16px 0; color: var(--accent);">📈 {{ col }}</h4>
+
+                {% if analysis.trend %}
+                <div style="margin-bottom: 12px;">
+                    <strong>Trend:</strong> {{ analysis.trend.interpretation|title }} {{ analysis.trend.direction }}
+                    (R²: {{ "%.2f"|format(analysis.trend.strength) }}, Slope: {{ "%.2f"|format(analysis.trend.slope) }})
+                </div>
+                {% endif %}
+
+                {% if analysis.growth %}
+                <div style="margin-bottom: 12px;">
+                    <strong>Total Growth:</strong> {{ "%.1f"|format(analysis.growth.total_pct) }}%
+                    ({{ "%.2f"|format(analysis.growth.first_value) }} → {{ "%.2f"|format(analysis.growth.last_value) }})
+                </div>
+                {% endif %}
+
+                {% if analysis.mom_comparison %}
+                <div>
+                    <strong>Period Comparison:</strong> {{ "%.1f"|format(analysis.mom_comparison.growth_pct) }}% change
+                    (Recent: {{ "%.2f"|format(analysis.mom_comparison.recent_avg) }} vs Previous: {{
+                    "%.2f"|format(analysis.mom_comparison.previous_avg) }})
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
         {% endif %}
@@ -895,7 +1231,7 @@
             <div class="charts">
                 {% for chart in data.charts %}
                 <div class="chart-card">
-                    <img src="/static/{{ chart }}" alt="Data visualization">
+                    <img src="{{ chart }}" alt="Data visualization">
                 </div>
                 {% endfor %}
             </div>
@@ -935,18 +1271,13 @@
             </div>
         </div>
         <div class="chat-input-area">
-            <input
-                type="text"
-                id="chatInput"
-                class="chat-input"
-                placeholder="Ask me about your data..."
-            />
+            <input type="text" id="chatInput" class="chat-input" placeholder="Ask me about your data..." />
             <button class="chat-send" id="chatSend" onclick="sendMessage()">Send</button>
         </div>
     </div>
 
     <div class="footer">
-        <div>Built with ❤️ using <strong>DataSage</strong> | Generated: {{ data.timestamp }}</div>
+        <div>Built with ❤️ using <strong>DataSage</strong> By <strong>Henil</strong> | Generated: {{ data.timestamp }}</div>
         <div class="footer-links">
             <a href="/">New Analysis</a>
             <a href="javascript:window.print()">Print Report</a>
