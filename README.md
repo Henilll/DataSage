@@ -1,13 +1,53 @@
-# DataSage
+# 🚀 DataSage — AI-Powered Data Analysis & Conversational Insights
 
-**DataSage** is an intelligent AI-powered data analysis assistant designed to help users effortlessly understand and interpret their data. It simplifies complex datasets and generates actionable insights with minimal effort.  
+**DataSage** is an AI-driven data analysis platform that enables users to upload any dataset and instantly receive automated data profiling, data quality evaluation, interactive visualizations, and intelligent insights.  
+It also features a **conversational AI bot** that allows users to ask natural language questions about their dataset and explore insights effortlessly.
 
-## Functionality
+🔗 **Live Demo:** https://datasage-ai.onrender.com
 
-- **Automated Data Analysis**: Upload your datasets, and DataSage analyzes them to identify key trends, patterns, and anomalies.  
-- **KPI Generation**: Automatically generates meaningful KPIs (Key Performance Indicators) to track performance metrics effectively.  
-- **Interactive Visualizations**: Creates intuitive charts, graphs, and dashboards for better data interpretation.  
-- **Insightful Recommendations**: Provides data-driven suggestions to help users make informed decisions.  
-- **User-friendly Interface**: Seamlessly interact with the AI assistant for quick data insights without writing code.  
+---
 
-DataSage empowers users, from beginners to experts, to derive actionable intelligence from raw data in a fast and efficient manner.
+## ✨ Key Features
+
+- 📊 **Automated Data Analysis**
+  - Dataset profiling (records, fields, memory usage)
+  - Data quality metrics: completeness, validity, consistency
+  - Missing value detection and summaries
+
+- 📈 **Interactive Visualizations**
+  - Auto-generated charts and statistical summaries
+  - Data type distribution analysis
+  - Insightful visual exploration of datasets
+
+- 🤖 **Conversational AI Data Bot**
+  - Ask natural language questions about your dataset
+  - Context-aware responses based on uploaded data
+  - Simplifies exploratory data analysis
+
+- 📄 **Export & Reporting**
+  - Download analysis results as PDF
+  - Share insights easily
+
+- 🌙 **Modern UI**
+  - Dark/Light theme toggle
+  - Clean, responsive dashboard design
+
+---
+
+## 🧠 Why DataSage?
+
+Traditional data analysis requires manual coding, tool-switching, and technical expertise.  
+**DataSage removes this friction** by combining automated analytics with AI-powered interaction, making data understanding faster and accessible for both technical and non-technical users.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend:** FastAPI, Flask
+- **AI & NLP:** LangChain, LLMs
+- **Data Processing:** Pandas, NumPy
+- **Visualization:** Plotly / Matplotlib
+- **Frontend:** HTML, CSS, JavaScript
+- **Deployment:** Render
+
+---
