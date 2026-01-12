@@ -12,7 +12,8 @@ from datetime import datetime
 from typing import Dict, List, Optional
 import warnings
 from dotenv import load_dotenv
-
+import plotly.io as pio
+pio.kaleido.scope.default_format = "png"
 # Load environment variables
 load_dotenv()
 warnings.filterwarnings('ignore')
@@ -116,32 +117,66 @@ def detect_data_types(df: pd.DataFrame) -> Dict:
     return types
 
 
+# def calculate_statistics(df: pd.DataFrame) -> Dict:
+#     """Calculate detailed statistics for numeric columns"""
+#     stats_dict = {}
+#     numeric_cols = df.select_dtypes(include=[np.number]).columns
+    
+#     for col in numeric_cols[:5]:
+#         col_data = df[col].dropna()
+        
+#         if len(col_data) == 0:
+#             continue
+        
+#         Q1 = col_data.quantile(0.25)
+#         Q3 = col_data.quantile(0.75)
+#         IQR = Q3 - Q1
+#         outliers = ((col_data < (Q1 - 1.5 * IQR)) | (col_data > (Q3 + 1.5 * IQR))).sum()
+        
+#         stats_dict[col] = {
+#             "mean": float(col_data.mean()),
+#             "median": float(col_data.median()),
+#             "std": float(col_data.std()),
+#             "min": float(col_data.min()),
+#             "max": float(col_data.max()),
+#             "outliers": int(outliers)
+#         }
+    
+#     return stats_dict
 def calculate_statistics(df: pd.DataFrame) -> Dict:
     """Calculate detailed statistics for numeric columns"""
     stats_dict = {}
     numeric_cols = df.select_dtypes(include=[np.number]).columns
-    
+
     for col in numeric_cols[:5]:
         col_data = df[col].dropna()
-        
+
         if len(col_data) == 0:
             continue
-        
+
+        mean_val = float(col_data.mean())
+        std_val = float(col_data.std())
+
         Q1 = col_data.quantile(0.25)
         Q3 = col_data.quantile(0.75)
         IQR = Q3 - Q1
         outliers = ((col_data < (Q1 - 1.5 * IQR)) | (col_data > (Q3 + 1.5 * IQR))).sum()
-        
+
+        # ✅ SAFE CV CALCULATION
+        cv = (std_val / mean_val * 100) if mean_val != 0 else 0.0
+
         stats_dict[col] = {
-            "mean": float(col_data.mean()),
+            "mean": mean_val,
             "median": float(col_data.median()),
-            "std": float(col_data.std()),
+            "std": std_val,
             "min": float(col_data.min()),
             "max": float(col_data.max()),
+            "cv": round(cv, 2),          # ✅ ADD THIS
             "outliers": int(outliers)
         }
-    
+
     return stats_dict
+
 
 
 def find_correlations(df: pd.DataFrame, threshold: float = 0.7) -> List[Dict]:
