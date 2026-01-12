@@ -15,9 +15,12 @@ app = Flask(
 
 app.secret_key = os.urandom(24)
 
-FASTAPI_URL = "http://127.0.0.1:8000/analyze"
-CHAT_URL = "http://127.0.0.1:8000/chat"
-CLEANUP_URL = "http://127.0.0.1:8000/cleanup"
+BASE_URL = os.getenv("FASTAPI_BASE_URL")
+
+FASTAPI_URL = f"{BASE_URL}/analyze"
+CHAT_URL = f"{BASE_URL}/chat"
+CLEANUP_URL = f"{BASE_URL}/cleanup"
+
 
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50MB max
 ALLOWED_EXTENSIONS = {'csv'}
